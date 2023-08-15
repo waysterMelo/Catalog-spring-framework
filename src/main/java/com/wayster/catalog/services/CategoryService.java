@@ -3,8 +3,11 @@ package com.wayster.catalog.services;
 import com.wayster.catalog.dto.CategoryDTO;
 import com.wayster.catalog.entity.CategoryEntity;
 import com.wayster.catalog.repositories.CategoryRepository;
+import com.wayster.catalog.services.servicesExceptions.DatabaseException;
 import com.wayster.catalog.services.servicesExceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,5 +59,14 @@ public class CategoryService {
 
     }
 
-
+    @Transactional
+    public void delete(Long id) {
+        try {
+            categoryRepository.deleteById(id);
+        }catch (EmptyResultDataAccessException ex){
+                throw new ResourceNotFoundException("Id not found" + id);
+        }catch (DataIntegrityViolationException data_ex){
+            throw new DatabaseException("Integrity Violation");
+        }
+    }
 }
