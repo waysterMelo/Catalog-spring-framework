@@ -16,11 +16,11 @@ public class CategoryResources {
 
     @Autowired
     private CategoryService categoryService;
-    
+
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> findAll(){
         List<CategoryDTO> lista = categoryService.findAll();
-        return ResponseEntity.ok(lista);
+        return ResponseEntity.ok().body(lista);
     }
 
     @GetMapping(value = "/{id}")
@@ -36,5 +36,10 @@ public class CategoryResources {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CategoryDTO> update(@PathVariable Long id, @RequestBody CategoryDTO dto){
+        dto =  categoryService.update(dto, id);
+        return ResponseEntity.ok().body(dto);
+    }
     
 }

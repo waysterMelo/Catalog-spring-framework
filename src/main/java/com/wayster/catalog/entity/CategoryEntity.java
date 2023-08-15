@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +15,9 @@ import java.util.Objects;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CategoryEntity {
+public class CategoryEntity implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +30,13 @@ public class CategoryEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CategoryEntity that = (CategoryEntity) o;
-        return Objects.equals(id, that.id);
+        CategoryEntity other = (CategoryEntity) o;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        }else if(!id.equals(other.id))
+            return false;
+        return true;
     }
 
     @Override

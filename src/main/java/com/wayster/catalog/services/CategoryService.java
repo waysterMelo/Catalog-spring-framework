@@ -3,11 +3,12 @@ package com.wayster.catalog.services;
 import com.wayster.catalog.dto.CategoryDTO;
 import com.wayster.catalog.entity.CategoryEntity;
 import com.wayster.catalog.repositories.CategoryRepository;
-import com.wayster.catalog.services.servicesExceptions.EntityNotFoundException;
+import com.wayster.catalog.services.servicesExceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class CategoryService {
      @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
          Optional<CategoryEntity> rs = categoryRepository.findById(id);
-         CategoryEntity entity = rs.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+         CategoryEntity entity = rs.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
          return new CategoryDTO(entity);
      }
 
@@ -40,4 +41,20 @@ public class CategoryService {
         categoryEntity = categoryRepository.save(categoryEntity);
         return new CategoryDTO(categoryEntity);
     }
+
+    @Transactional
+    public CategoryDTO update (CategoryDTO dto, Long id){
+       try {
+           CategoryEntity entity = categoryRepository.getReferenceById(id);
+           entity.setNome(dto.getNome());
+           entity = categoryRepository.save(entity);
+           return new CategoryDTO(entity);
+
+       }catch (EntityNotFoundException ex){
+           throw new ResourceNotFoundException("Id not found" + id);
+       }
+
+    }
+
+
 }
