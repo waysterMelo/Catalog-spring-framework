@@ -8,6 +8,8 @@ import com.wayster.catalog.services.servicesExceptions.ResourceNotFoundException
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +42,7 @@ public class CategoryService {
      @Transactional
     public CategoryDTO insert(CategoryDTO dto) {
         CategoryEntity categoryEntity = new CategoryEntity();
-        categoryEntity.setNome(dto.getNome());
+        categoryEntity.setName(dto.getNome());
         categoryEntity = categoryRepository.save(categoryEntity);
         return new CategoryDTO(categoryEntity);
     }
@@ -49,7 +51,7 @@ public class CategoryService {
     public CategoryDTO update (CategoryDTO dto, Long id){
        try {
            CategoryEntity entity = categoryRepository.getReferenceById(id);
-           entity.setNome(dto.getNome());
+           entity.setName(dto.getNome());
            entity = categoryRepository.save(entity);
            return new CategoryDTO(entity);
 
@@ -68,5 +70,11 @@ public class CategoryService {
         }catch (DataIntegrityViolationException data_ex){
             throw new DatabaseException("Integrity Violation");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Page<CategoryDTO> findAllPaged(PageRequest pageRequest) {
+        Page<CategoryEntity> list = categoryRepository.findAll(pageRequest);
+        return list.map(x -> new CategoryDTO(x));
     }
 }

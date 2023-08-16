@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -23,7 +24,10 @@ public class CategoryEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String nome;
+    private String name;
+
+    private Date created_At;
+
 
 
     @Override

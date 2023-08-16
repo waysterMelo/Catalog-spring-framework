@@ -1,8 +1,12 @@
 package com.wayster.catalog.resources;
 
 import com.wayster.catalog.dto.CategoryDTO;
+import com.wayster.catalog.entity.CategoryEntity;
 import com.wayster.catalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -18,8 +22,16 @@ public class CategoryResources {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryDTO>> findAll(){
-        List<CategoryDTO> lista = categoryService.findAll();
+    public ResponseEntity<Page<CategoryDTO>> findAll(
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
+            @RequestParam(value = "direction", defaultValue = "DESC") String direction,
+            @RequestParam(value = "orderBy", defaultValue = "nome") String orderBy
+    ){
+        PageRequest pageRequest = PageRequest.of(page, linesPerPage, Sort.Direction.valueOf(direction), orderBy);
+
+        Page<CategoryDTO> lista = categoryService.findAllPaged(pageRequest);
+
         return ResponseEntity.ok().body(lista);
     }
 
