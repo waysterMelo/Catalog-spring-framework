@@ -34,13 +34,11 @@ public class ProductDto {
         this.price = entity.getPrice();
         this.img_Url = entity.getImgUrl();
         this.date = entity.getDate();
-
-
     }
 
     public ProductDto(ProductEntity entity, Set<CategoryEntity> categoryEntities) {
         this(entity);
-        categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
+        categoryEntities.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
 
     }
 

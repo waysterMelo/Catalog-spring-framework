@@ -25,7 +25,6 @@ public class CategoryEntity implements Serializable {
     private Long id;
 
     private String name;
-
     private Date created_At;
 
 
