@@ -22,4 +22,9 @@ public class CategoryDTO {
         this.id = entity.getId();
         this.nome = entity.getName();
     }
+
+    public CategoryDTO(CategoryDTO cat) {
+        this.id = cat.getId();
+        this.nome = cat.getNome();
+    }
 }

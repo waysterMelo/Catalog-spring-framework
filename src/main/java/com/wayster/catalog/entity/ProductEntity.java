@@ -27,7 +27,7 @@ public class ProductEntity implements Serializable {
     @Column(length = 455)
     private String description;
     private Double price;
-    private String img_url;
+    private String imgUrl;
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant date;
