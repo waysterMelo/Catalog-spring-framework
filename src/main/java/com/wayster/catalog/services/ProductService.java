@@ -26,6 +26,8 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+    private CategoryRepository categoryRepository;
+
 
     @Transactional(readOnly = true)
     public List<ProductDto> findAll() {
@@ -45,9 +47,26 @@ public class ProductService {
      @Transactional
     public ProductDto insert(ProductDto dto) {
         ProductEntity productEntity = new ProductEntity();
+        copyDtoToEntity(dto, productEntity);
         productEntity.setName(dto.getName());
         productEntity = productRepository.save(productEntity);
         return new ProductDto(productEntity);
+    }
+
+    private void copyDtoToEntity(ProductDto dto, ProductEntity productEntity) {
+        productEntity.setName(dto.getName());
+        productEntity.setDescription(dto.getDescription());
+        productEntity.setDate(dto.getDate());
+        productEntity.setImgUrl(dto.getImg_Url());
+        productEntity.setPrice(dto.getPrice());
+
+        productEntity.getCategories().clear();
+
+        for (CategoryDTO catDto : dto.getCategories()){
+            CategoryEntity categoryEntity = categoryRepository.getOne(catDto.getId());
+            productEntity.getCategories().add(categoryEntity);
+        }
+
     }
 
     @Transactional
