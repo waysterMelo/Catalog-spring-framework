@@ -13,10 +13,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,6 +28,8 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
     private CategoryRepository categoryRepository;
 
 
@@ -48,7 +52,6 @@ public class ProductService {
     public ProductDto insert(ProductDto dto) {
         ProductEntity productEntity = new ProductEntity();
         copyDtoToEntity(dto, productEntity);
-        productEntity.setName(dto.getName());
         productEntity = productRepository.save(productEntity);
         return new ProductDto(productEntity);
     }
@@ -72,8 +75,8 @@ public class ProductService {
     @Transactional
     public ProductDto update (ProductDto dto, Long id){
        try {
-           ProductEntity entity = productRepository.getReferenceById(id);
-           entity.setName(dto.getName());
+           ProductEntity entity = productRepository.getOne(id);
+           copyDtoToEntity(dto, entity);
            entity = productRepository.save(entity);
            return new ProductDto(entity);
 
@@ -95,8 +98,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDto> findAllPaged(PageRequest pageRequest) {
-        Page<ProductEntity> list = productRepository.findAll(pageRequest);
+    public Page<ProductDto> findAllPaged(Pageable pageable) {
+        Page<ProductEntity> list = productRepository.findAll(pageable);
         return list.map(x -> new ProductDto(x));
     }
 }
