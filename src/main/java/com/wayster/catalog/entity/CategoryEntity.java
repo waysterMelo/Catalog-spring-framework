@@ -1,21 +1,19 @@
 package com.wayster.catalog.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb_category")
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class CategoryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -23,10 +21,11 @@ public class CategoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
-    private Date created_At;
+    private Instant created_At;
 
+    public CategoryEntity(long l, String eletronics) {
+    }
 
 
     @Override

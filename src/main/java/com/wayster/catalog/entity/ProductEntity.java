@@ -10,13 +10,10 @@ import java.util.Optional;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "tb_product ")
+@Table(name = "tb_product")
 public class ProductEntity implements Serializable {
-
     private static final Long serialVersionUID = 1L;
 
     @Id
@@ -29,7 +26,6 @@ public class ProductEntity implements Serializable {
     private String description;
     private Double price;
     private String imgUrl;
-
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant date;
 
@@ -39,7 +35,10 @@ public class ProductEntity implements Serializable {
                     inverseJoinColumns = @JoinColumn(name = "category_id"))
     Set<CategoryEntity> categories = new HashSet<>();
 
+    public ProductEntity() {
+    }
 
+    public ProductEntity(long l, String phone, String goodPhone, double v, String url, Instant parse) {
 
-
+    }
 }
