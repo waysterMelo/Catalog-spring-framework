@@ -4,16 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "tb_category")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
 public class CategoryEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -22,11 +20,14 @@ public class CategoryEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant created_At;
 
-    public CategoryEntity(long l, String eletronics) {
-    }
+    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    private Instant updateAt;
 
+    @ManyToMany(mappedBy = "categories")
+    private Set<ProductEntity> product = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {

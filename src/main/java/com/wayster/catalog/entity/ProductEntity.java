@@ -15,7 +15,6 @@ import java.util.Set;
 @Table(name = "tb_product")
 public class ProductEntity implements Serializable {
     private static final Long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,4 +40,6 @@ public class ProductEntity implements Serializable {
     public ProductEntity(long l, String phone, String goodPhone, double v, String url, Instant parse) {
 
     }
+
+
 }
