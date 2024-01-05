@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.persistence.criteria.Fetch;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,7 +29,9 @@ public class User implements Serializable {
     private String email;
     private String password;
 
-    @ManyToMany
+
+//    define que os dados relacionados (nesse caso, os papéis ou roles) devem ser carregados imediatamente ao carregar a entidade principal (tb_user).
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
