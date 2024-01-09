@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.*;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -18,10 +19,18 @@ import java.util.Set;
 public class ProductDto {
 
     private Long id;
+
+    @Size(min = 5, max = 60, message = "CAMPO NAO RESPEITA AS REGRAS DE VALIDAÇÃO")
+    @NotBlank(message = "CAMPO OBRIGATORIO")
     private String name;
+
+    @NotBlank(message = "CAMPO OBRIGATORIO")
+
     private String description;
+    @Positive(message = "VALORES NEGATIVOS NÃO ACEITO")
     private Double price;
     private String img_Url;
+    @PastOrPresent(message = "DATA ERRADA")
     private Instant date;
 
     private List<CategoryDTO> categories = new ArrayList<>();
