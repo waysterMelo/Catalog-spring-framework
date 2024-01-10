@@ -2,6 +2,7 @@ package com.wayster.catalog.resources;
 
 import com.wayster.catalog.dto.UserDto;
 import com.wayster.catalog.dto.UserInsertDto;
+import com.wayster.catalog.dto.UserUpdateDto;
 import com.wayster.catalog.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,9 +41,9 @@ public class UserResources {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> update(@Valid @PathVariable Long id, @RequestBody UserDto dto){
-        dto =  userService.update(dto, id);
-        return ResponseEntity.ok().body(dto);
+    public ResponseEntity<UserDto> update(@PathVariable Long id, @Valid @RequestBody UserUpdateDto dto){
+        UserDto newDto =  userService.update(dto, id);
+        return ResponseEntity.ok().body(newDto);
     }
 
     @DeleteMapping(value = "/{id}")

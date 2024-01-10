@@ -1,9 +1,6 @@
 package com.wayster.catalog.services;
 
-import com.wayster.catalog.dto.CategoryDTO;
-import com.wayster.catalog.dto.RoleDto;
-import com.wayster.catalog.dto.UserDto;
-import com.wayster.catalog.dto.UserInsertDto;
+import com.wayster.catalog.dto.*;
 import com.wayster.catalog.entity.CategoryEntity;
 import com.wayster.catalog.entity.Role;
 import com.wayster.catalog.entity.User;
@@ -84,7 +81,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto update (UserDto dto, Long id){
+    public UserDto update (UserUpdateDto dto, Long id){
        try {
            User entity = userRepository.getOne(id);
            copyDtoToEntity(dto, entity);
